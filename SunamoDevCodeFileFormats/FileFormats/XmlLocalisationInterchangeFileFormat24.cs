@@ -4,25 +4,16 @@ namespace SunamoDevCode.FileFormats;
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
 public static partial class XmlLocalisationInterchangeFileFormat
 {
-    /// <summary>
-    /// Replaces string-based SessI18n keys with XlfKeys dot notation in all given files.
-    /// </summary>
-    /// <param name="files">List of file paths to process.</param>
+    // Replaces string-based SessI18n keys with XlfKeys dot notation in all given files.
     public static
-#if ASYNC
         async Task
-#else
-    void
-#endif
     ReplaceStringKeysWithXlfKeys(List<string> files)
     {
         string? key = null;
         foreach (var item in files)
         {
-            var content = 
-#if ASYNC
+            var content =
                 await
-#endif
             FileAsync.ReadAllTextAsync(item);
             var content2 = ReplaceStringKeysWithXlfKeysWorker(ref key, content);
             if (content != content2)
@@ -32,17 +23,12 @@ public static partial class XmlLocalisationInterchangeFileFormat
         }
     }
 
-    /// <summary>
-    /// Worker method that performs the actual replacement of SessI18n keys with XlfKeys format in content.
-    /// </summary>
-    /// <param name="key">Output: the last processed key.</param>
-    /// <param name="content">Source code content to process.</param>
-    /// <returns>Modified content with replaced keys.</returns>
+    // Worker method that performs the actual replacement of SessI18n keys with XlfKeys format in content.
     public static string ReplaceStringKeysWithXlfKeysWorker(ref string? key, string content)
     {
         var occ = SH.ReturnOccurencesOfString(content, XmlLocalisationInterchangeFileFormatSunamo.SessI18n + "\"");
         occ.Reverse();
-        StringBuilder stringBuilder = new StringBuilder(content);
+        var stringBuilder = new StringBuilder(content);
         foreach (var dx in occ)
         {
             var start = dx + 1 + XmlLocalisationInterchangeFileFormatSunamo.SessI18n.Length;
@@ -55,10 +41,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
         return stringBuilder.ToString();
     }
 
-    /// <summary>
-    /// Gets a list of SunamoStrings keys with the SessI18n and XlfKeys prefixes removed.
-    /// </summary>
-    /// <returns>List of cleaned string keys.</returns>
+    // Gets a list of SunamoStrings keys with the SessI18n and XlfKeys prefixes removed.
     public static List<string> GetSunamoStrings()
     {
         var list = sunamoStrings.ToList();
@@ -70,11 +53,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
         return list;
     }
 
-    /// <summary>
-    /// Replaces SunamoStrings references with SessI18n format in the given text.
-    /// </summary>
-    /// <param name="count">Source text to process.</param>
-    /// <returns>Text with SunamoStrings replaced by SessI18n.</returns>
+    // Replaces SunamoStrings references with SessI18n format in the given text.
     public static string ReplaceSunamoStringsWithSessI18n(string count)
     {
         var from = GetSunamoStrings();
@@ -88,31 +67,20 @@ public static partial class XmlLocalisationInterchangeFileFormat
         return count;
     }
 
-    /// <summary>
-    /// ReplaceXlfKeysForString - Convert from XlfKeys to ""
-    /// Cooperating with NotToTranslateStrings
-    /// </summary>
-    /// <param name = "path"></param>
-    /// <param name = "ids"></param>
-    /// <param name = "solutionsExcludeWhileWorkingOnSourceCode"></param>
+    // ReplaceXlfKeysForString - Convert from XlfKeys to ""
+    // Cooperating with NotToTranslateStrings
     public static
-#if ASYNC
         async Task<OutRefDC<object, List<string>>>
-#else
-    OutRef<object, List<string>>
-#endif
     ReplaceXlfKeysForString(string path, List<string> ids, List<string> solutionsExcludeWhileWorkingOnSourceCode)
     {
         var addToNotToTranslateStrings = new List<string>();
         solutionsExcludeWhileWorkingOnSourceCode.Add("AllProjectsSearchTestFiles");
         CA.WrapWith(solutionsExcludeWhileWorkingOnSourceCode, @"\");
-        Dictionary<string, string> filesWithXlf = new Dictionary<string, string>();
+        var filesWithXlf = new Dictionary<string, string>();
         var files = Directory.GetFiles(BasePathsHelper.VsProjects!, "*.cs", SearchOption.AllDirectories);
-        Dictionary<string, string> idTarget = new Dictionary<string, string>();
-        var data = 
-#if ASYNC
+        var idTarget = new Dictionary<string, string>();
+        var data =
             await
-#endif
         GetTransUnits(path);
         foreach (var item in data.TransUnits)
         {
@@ -140,10 +108,8 @@ public static partial class XmlLocalisationInterchangeFileFormat
                 continue;
             }
 
-            var content = 
-#if ASYNC
+            var content =
                 await
-#endif
             FileAsync.ReadAllTextAsync(item);
             if (content.Contains(XmlLocalisationInterchangeFileFormatSunamo.XlfKeysDot))
             {
@@ -151,11 +117,11 @@ public static partial class XmlLocalisationInterchangeFileFormat
             }
         }
 
-        List<string> replacedKeys = new List<string>();
+        var replacedKeys = new List<string>();
         foreach (var kv in filesWithXlf)
         {
             var content = kv.Value;
-            StringBuilder stringBuilder = new StringBuilder(content);
+            var stringBuilder = new StringBuilder(content);
             replacedKeys.Clear();
             foreach (var item in ids)
             {
@@ -177,7 +143,6 @@ public static partial class XmlLocalisationInterchangeFileFormat
                 for (int i = points.Count - 1; i >= 0; i--)
                 {
                     var dx = points[i];
-                    var dxNextChar = dx + toReplace.Length;
                     stringBuilder.Remove(dx, toReplace.Length);
                     stringBuilder.Insert(dx, SH.WrapWithQm(idTarget[item]));
                 }
@@ -194,11 +159,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
     // Nepřidávat znovu pokud již končí na postfix
     }
 
-    /// <summary>
-    /// Determines whether a key should be included in XlfKeys based on naming rules.
-    /// </summary>
-    /// <param name="key">Key name to check.</param>
-    /// <returns>True if the key should be in XlfKeys.</returns>
+    // Determines whether a key should be included in XlfKeys based on naming rules.
     public static bool IsToBeInXlfKeys(string key)
     {
         var b1 = !SystemWindowsControls.StartingWithShortcutOfControl(key);
@@ -209,13 +170,9 @@ public static partial class XmlLocalisationInterchangeFileFormat
         return b1 && b2 && b3 && b4 && b5;
     }
 
-    /// <summary>
-    /// was collection with previously existed properties in SunamoStrings class like Translate.FromKey(XlfKeys.EditUserAccount)
-    /// </summary>
+    // was collection with previously existed properties in SunamoStrings class like Translate.FromKey(XlfKeys.EditUserAccount)
     static readonly List<string> sunamoStrings = SHGetLines.GetLines(@"");
-    /// <summary>
-    /// XmlLocalisationInterchangeFileFormatSunamo.removeSessI18nIfLineContains
-    /// </summary>
+    // XmlLocalisationInterchangeFileFormatSunamo.removeSessI18nIfLineContains
     public static List<string> removeSessI18nIfLineContains = new List<string>(["MSStoredProceduresI"]);
     // Before is possible use ReplaceRlDataToSessionI18n
     // Was earlier in sunamo, now in SunamoDevCode
@@ -223,11 +180,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
     //{
     //    return RemoveSessI18nIfLineContainsWorker(count, removeSessI18nIfLineContains.ToArray());
     //}
-    /// <summary>
-    /// Removes SessI18n references from lines that contain any of the predefined identifiers.
-    /// </summary>
-    /// <param name="count">Text to process.</param>
-    /// <returns>Text with SessI18n removed from matching lines.</returns>
+    // Removes SessI18n references from lines that contain any of the predefined identifiers.
     public static string RemoveSessI18nIfLineContains(string count)
     {
         return RemoveSessI18nIfLineContains(count, removeSessI18nIfLineContains);

@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCopyrightAttribute("www.sunamo.cz")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("XLF file format handling extracted from SunamoDevCode.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("26.6.21.1")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("26.6.21.1+be7c6b3c4eb23a10c607e5eab1fddd9d2a6ccd32")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("26.6.21.1+f28518d6d818642283eb526a651dd1b7b991b5b8")]
 [assembly: System.Reflection.AssemblyProductAttribute("SunamoDevCodeFileFormats")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SunamoDevCodeFileFormats")]
 [assembly: System.Reflection.AssemblyVersionAttribute("26.6.21.1")]

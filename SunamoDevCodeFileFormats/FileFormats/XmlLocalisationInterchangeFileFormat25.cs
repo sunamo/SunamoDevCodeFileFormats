@@ -4,12 +4,7 @@ namespace SunamoDevCode.FileFormats;
 // CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
 public static partial class XmlLocalisationInterchangeFileFormat
 {
-    /// <summary>
-    /// Removes SessI18n calls from lines that contain any of the specified substrings.
-    /// </summary>
-    /// <param name="count">Source text content to process.</param>
-    /// <param name="lineCont">Substrings to match against lines; defaults to internal list if null.</param>
-    /// <returns>Processed text with SessI18n removed from matching lines.</returns>
+    // Removes SessI18n calls from lines that contain any of the specified substrings.
     public static string RemoveSessI18nIfLineContains(string count, IList<string>? lineCont = null)
     {
         if (lineCont == null || lineCont.Count == 0)
@@ -42,11 +37,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
         return string.Join(Environment.NewLine, list);
     }
 
-    /// <summary>
-    /// Removes all SessI18n wrapper calls from the given text content.
-    /// </summary>
-    /// <param name="count">Text content to strip SessI18n calls from.</param>
-    /// <returns>Text with all SessI18n calls removed.</returns>
+    // Removes all SessI18n wrapper calls from the given text content.
     public static string RemoveAllSessI18n(string count)
     {
         var stringBuilder = new StringBuilder(count);
@@ -65,31 +56,19 @@ public static partial class XmlLocalisationInterchangeFileFormat
             stringBuilder = stringBuilder.Remove(occ[i], list);
         }
 
-        var result = stringBuilder.ToString();
-        return result;
+        return stringBuilder.ToString();
     }
 
-    /// <summary>
-    /// Cached type reference for XmlLocalisationInterchangeFileFormat.
-    /// </summary>
+    // Cached type reference for XmlLocalisationInterchangeFileFormat.
     public static Type type = typeof(XmlLocalisationInterchangeFileFormat);
-    /// <summary>
-    /// Replaces RLData resource calls with SessionI18n calls using default parameters.
-    /// </summary>
-    /// <param name="text">Source text to transform.</param>
-    /// <returns>Text with RLData replaced by SessionI18n.</returns>
+
+    // Replaces RLData resource calls with SessionI18n calls using default parameters.
     public static string ReplaceRlDataToSessionI18n(string text)
     {
         return ReplaceRlDataToSessionI18n(text, SunamoNotTranslateAble.RLDataEn, SunamoNotTranslateAble.SessI18nShort);
     }
 
-    /// <summary>
-    /// Replaces resource data calls with session i18n calls in the content, converting bracket styles.
-    /// </summary>
-    /// <param name="content">Source content to transform.</param>
-    /// <param name="from">Original resource accessor prefix to replace.</param>
-    /// <param name="to">New session i18n prefix to use.</param>
-    /// <returns>Content with resource calls replaced.</returns>
+    // Replaces resource data calls with session i18n calls in the content, converting bracket styles.
     public static string ReplaceRlDataToSessionI18n(string content, string from, string to)
     {
         var RLDataEn = SunamoNotTranslateAble.RLDataEn;
@@ -131,14 +110,14 @@ public static partial class XmlLocalisationInterchangeFileFormat
         var list = from.Length;
         content = content.Replace(XmlLocalisationInterchangeFileFormatSunamo.RLDataEn2, from);
         var occ = SH.ReturnOccurencesOfString(content, from);
-        List<int> ending = new List<int>();
+        var ending = new List<int>();
         foreach (var item in occ)
         {
             var io = content.IndexOf(endingChar, item);
             ending.Add(io);
         }
 
-        StringBuilder stringBuilder = new StringBuilder(content);
+        var stringBuilder = new StringBuilder(content);
         occ.Reverse();
         ending.Reverse();
         for (int i = 0; i < occ.Count; i++)
@@ -155,11 +134,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
         return count;
     }
 
-    /// <summary>
-    /// Gets the id attribute value from an XElement.
-    /// </summary>
-    /// <param name="element">XML element to read the id from.</param>
-    /// <returns>Value of the id attribute.</returns>
+    // Gets the id attribute value from an XElement.
     public static string Id(XElement element)
     {
         return XHelper.Attr(element, "id")!;
