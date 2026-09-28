@@ -118,7 +118,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
 
     public static
         async Task
-    Append(string source, string target, string pascal, string fn)
+    Append(string target, string pascal, string fn)
     {
         var data =
             await

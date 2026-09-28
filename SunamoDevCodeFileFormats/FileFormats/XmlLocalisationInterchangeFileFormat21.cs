@@ -57,7 +57,7 @@ Into A1 insert:
     // Before mu
     public static
         async Task
-    ReplaceForWithoutUnderscore(ILogger logger, string folder)
+    ReplaceForWithoutUnderscore(ILogger logger)
     {
         var withWithoutUnderscore = new Dictionary<string, string>();
         var files = XmlLocalisationInterchangeFileFormat.GetFilesCs(logger);
@@ -145,7 +145,7 @@ Into A1 insert:
     // Was in MainWindow but probably was replaced with GetAllLastLetterFromEnd
     public static
         async Task<List<string>>
-    GetAllLastLetterFromEnd(string fn, bool saveAllLastLetterToClipboard)
+    GetAllLastLetterFromEnd(string fn)
     {
         var ids = new List<string>();
         var allLastLetters = new List<char>();

@@ -157,10 +157,8 @@ TranslateEngine");
 
     // Gets XLF keys from C# code with RLData.en prefix.
     // To be able to be found with this method, keys must be wrapped with XlfKeys and Translate.FromKey or RLData.en.
-    // The file parameter is here only due to breakpoint for certain files.
-    public static IList<string> GetKeysInCsWithRLDataEn(ref string key, string content, string file = "")
+    public static IList<string> GetKeysInCsWithRLDataEn(ref string key, string content)
     {
-        _ = file;
         List<string> foundKeys = new List<string>();
         var occurrences = SH.ReturnOccurencesOfString(content, XmlLocalisationInterchangeFileFormatSunamo.RLDataEn + XmlLocalisationInterchangeFileFormatSunamo.XlfKeysDot);
         occurrences.Reverse();
