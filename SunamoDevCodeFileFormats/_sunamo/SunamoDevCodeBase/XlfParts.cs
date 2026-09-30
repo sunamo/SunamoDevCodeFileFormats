@@ -1,4 +1,4 @@
-namespace SunamoDevCodeFileFormats._sunamo;
+namespace SunamoDevCode._sunamo.SunamoDevCodeBase;
 
 /// <summary>
 /// Parts of an XLF file.

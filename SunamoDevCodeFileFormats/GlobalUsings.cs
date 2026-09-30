@@ -23,4 +23,4 @@ global using Microsoft.Extensions.Logging.Abstractions;
 global using ILogger = Microsoft.Extensions.Logging.ILogger;
 global using NullLogger = Microsoft.Extensions.Logging.Abstractions.NullLogger;
 global using SunamoDevCode.FileFormats;
-global using SunamoDevCodeFileFormats._sunamo;
+global using SunamoDevCode._sunamo.SunamoDevCodeBase;

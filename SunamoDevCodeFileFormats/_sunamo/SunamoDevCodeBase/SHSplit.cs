@@ -1,4 +1,4 @@
-namespace SunamoDevCodeFileFormats._sunamo;
+namespace SunamoDevCode._sunamo.SunamoDevCodeBase;
 
 /// <summary>
 /// Splitting of strings.

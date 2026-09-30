@@ -1,4 +1,4 @@
-namespace SunamoDevCodeFileFormats._sunamo;
+namespace SunamoDevCode._sunamo.SunamoDevCodeBase;
 
 // Helper class for System.Windows controls shortcuts and names
 /// <summary>

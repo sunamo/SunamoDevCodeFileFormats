@@ -1,4 +1,4 @@
-namespace SunamoDevCodeFileFormats._sunamo;
+namespace SunamoDevCode._sunamo.SunamoDevCodeBase;
 
 // © www.sunamo.cz. All Rights Reserved.
 /// <summary>
