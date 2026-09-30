@@ -1,4 +1,4 @@
-namespace SunamoDevCodeFileFormats._sunamo;
+namespace SunamoDevCode._sunamo.SunamoDevCodeBase;
 
 // Dictionary as cache is good in database but not in ordinal c# app!
 /// <summary>
