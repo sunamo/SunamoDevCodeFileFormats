@@ -18,17 +18,17 @@ internal sealed partial class Exceptions
     /// <summary>
     /// Returns text of the exception including inner exceptions.
     /// </summary>
-    internal static string TextOfExceptions(Exception ex, bool alsoInner = true)
+    internal static string TextOfExceptions(Exception exception, bool alsoInner = true)
     {
-        if (ex == null) return string.Empty;
+        if (exception == null) return string.Empty;
         StringBuilder stringBuilder = new();
         stringBuilder.Append("Exception:");
-        stringBuilder.AppendLine(ex.Message);
+        stringBuilder.AppendLine(exception.Message);
         if (alsoInner)
-            while (ex.InnerException != null)
+            while (exception.InnerException != null)
             {
-                ex = ex.InnerException;
-                stringBuilder.AppendLine(ex.Message);
+                exception = exception.InnerException;
+                stringBuilder.AppendLine(exception.Message);
             }
         var result = stringBuilder.ToString();
         return result;
@@ -101,9 +101,9 @@ bool isFillAlsoFirstTwo = true)
     /// <summary>
     /// Returns message with the exception passed as argument.
     /// </summary>
-    internal static string? ExcAsArg(string before, Exception ex, string message)
+    internal static string? ExcAsArg(string before, Exception exception, string message)
     {
-        return CheckBefore(before) + message + string.Empty + TextOfExceptions(ex);
+        return CheckBefore(before) + message + string.Empty + TextOfExceptions(exception);
     }
     /// <summary>
     /// Returns message about not implemented case.

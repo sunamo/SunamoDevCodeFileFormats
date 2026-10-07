@@ -19,8 +19,8 @@ internal partial class ThrowEx
     /// <summary>
     /// Returns message with the exception passed as argument.
     /// </summary>
-    internal static bool ExcAsArg(Exception ex, string message = "")
-    { return ThrowIsNotNull(Exceptions.ExcAsArg, ex, message); }
+    internal static bool ExcAsArg(Exception exception, string message = "")
+    { return ThrowIsNotNull(Exceptions.ExcAsArg, exception, message); }
     /// <summary>
     /// Returns message about text that does not contain the expected parts.
     /// </summary>

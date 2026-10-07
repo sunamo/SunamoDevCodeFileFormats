@@ -13,11 +13,11 @@ internal class XmlNamespacesHolder
     /// </summary>
     internal XmlDocument ParseAndRemoveNamespacesXmlDocument(string content)
     {
-        XmlDocument xd = new XmlDocument();
+        XmlDocument xmlDocument = new XmlDocument();
 
-        xd = ParseAndRemoveNamespacesXmlDocument(content, xd.NameTable);
+        xmlDocument = ParseAndRemoveNamespacesXmlDocument(content, xmlDocument.NameTable);
 
-        return xd;
+        return xmlDocument;
     }
 
     // A3 is default prefix because cant be empty anytime (/:Tag or /Tag dont working but /prefix:Tag yes)
@@ -26,9 +26,9 @@ internal class XmlNamespacesHolder
     /// <summary>
     /// Parses XML to XmlDocument without namespaces.
     /// </summary>
-    internal XmlDocument ParseAndRemoveNamespacesXmlDocument(string content, XmlNameTable nt, string defaultPrefix = "x")
+    internal XmlDocument ParseAndRemoveNamespacesXmlDocument(string content, XmlNameTable nameTable, string defaultPrefix = "x")
     {
-        XmlDocument xd = new XmlDocument();
+        XmlDocument xmlDocument = new XmlDocument();
 
         /*
         * In default state have already three keys:
@@ -36,20 +36,20 @@ internal class XmlNamespacesHolder
         xmlns=http://www.w3.org/2000/xmlns/
         xml=http://www.w3.org/XML/1998/namespace
         */
-        NamespaceManager = new XmlNamespaceManager(nt);
+        NamespaceManager = new XmlNamespaceManager(nameTable);
 
-        xd.LoadXml(content);
+        xmlDocument.LoadXml(content);
 
-        foreach (XmlNode item in xd.ChildNodes)
+        foreach (XmlNode item in xmlDocument.ChildNodes)
         {
             if (item.NodeType == XmlNodeType.XmlDeclaration)
             {
                 continue;
             }
             var root = item;
-            for (int i = root.Attributes!.Count - 1; i >= 0; i--)
+            for (int index = root.Attributes!.Count - 1; index >= 0; index--)
             {
-                var att = root.Attributes[i];
+                var att = root.Attributes[index];
                 //
                 string key = defaultPrefix;
                 if (att.Name.StartsWith("xmlns"))
@@ -61,12 +61,12 @@ internal class XmlNamespacesHolder
 
                     NamespaceManager.AddNamespace(key, att.Value);
                     // TODO: Delete wrong attribute but in outerXml is still figuring
-                    root.Attributes.RemoveAt(i);
+                    root.Attributes.RemoveAt(index);
                 }
             }
         }
 
-        return xd;
+        return xmlDocument;
     }
 
     /// <summary>
@@ -74,8 +74,8 @@ internal class XmlNamespacesHolder
     /// </summary>
     internal XDocument ParseAndRemoveNamespacesXDocument(string content)
     {
-        var xd = ParseAndRemoveNamespacesXmlDocument(content);
-        return XDocument.Parse(xd.OuterXml);
+        var xDocument = ParseAndRemoveNamespacesXmlDocument(content);
+        return XDocument.Parse(xDocument.OuterXml);
     }
 
     }

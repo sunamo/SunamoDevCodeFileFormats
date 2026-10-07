@@ -7,14 +7,14 @@ public static partial class XmlLocalisationInterchangeFileFormat
     // Gets trans-unit IDs or targets from XLF file that contain diacritics.
     public static
         async Task<List<string>>
-    FromXlfWithDiacritic(string fn, XlfParts p)
+    FromXlfWithDiacritic(string fileName, XlfParts xlfParts)
     {
         // Dont use, its also non czech with diacritic hats tuồng (hats bôi)
         var data =
             await
-        GetTransUnits(fn);
-        var r = new List<string>();
-        if (p == XlfParts.Id)
+        GetTransUnits(fileName);
+        var result = new List<string>();
+        if (xlfParts == XlfParts.Id)
         {
             foreach (var item in data.TransUnits)
             {
@@ -22,14 +22,14 @@ public static partial class XmlLocalisationInterchangeFileFormat
                 GetLastLetter(item, out idTransUnit);
                 if (SH.ContainsDiacritic(idTransUnit!))
                 {
-                    r.Add(idTransUnit!);
+                    result.Add(idTransUnit!);
                 // dont remove, just save ID, coz many strings have diac and is not czech hats tuồng (hats bôi)
                 //item.Remove();
                 //; break;
                 }
             }
         }
-        else if (p == XlfParts.Target)
+        else if (xlfParts == XlfParts.Target)
         {
             foreach (var item in data.TransUnits)
             {
@@ -38,7 +38,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
                 GetLastLetter(item, out idTransUnit);
                 if (SH.ContainsDiacritic(target))
                 {
-                    r.Add(idTransUnit!);
+                    result.Add(idTransUnit!);
                 // dont remove, just save ID, coz many strings have diac and is not czech hats tuồng (hats bôi)
                 //item.Remove();
                 }
@@ -49,28 +49,28 @@ public static partial class XmlLocalisationInterchangeFileFormat
         //{
         //    ClipboardHelper.SetLines(r);
         //}
-        return r;
+        return result;
     }
 
     // Removes specified trans-units from the XLF file and corresponding constants from XlfKeys.
     public static
         async Task
-    RemoveFromXlfAndXlfKeys(string fn, List<string> idsEndingEnd, XlfParts p)
+    RemoveFromXlfAndXlfKeys(string fileName, List<string> idsEndingEnd, XlfParts xlfParts)
     {
         var data =
             await
-        GetTransUnits(fn);
+        GetTransUnits(fileName);
         bool removed = false;
-        if (p == XlfParts.Id)
+        if (xlfParts == XlfParts.Id)
         {
-            for (int i = idsEndingEnd.Count - 1; i >= 0; i--)
+            for (int index = idsEndingEnd.Count - 1; index >= 0; index--)
             {
                 foreach (var item in data.TransUnits)
                 {
                     string? idTransUnit = null;
                     GetLastLetter(item, out idTransUnit);
-                    var id = idsEndingEnd[i];
-                    if (id == idTransUnit)
+                    var transUnitId = idsEndingEnd[index];
+                    if (transUnitId == idTransUnit)
                     {
                         item.Remove();
                         break;
@@ -78,25 +78,25 @@ public static partial class XmlLocalisationInterchangeFileFormat
                 }
             }
         }
-        else if (p == XlfParts.Target)
+        else if (xlfParts == XlfParts.Target)
         {
-            for (int i = idsEndingEnd.Count - 1; i >= 0; i--)
+            for (int idIndex = idsEndingEnd.Count - 1; idIndex >= 0; idIndex--)
             {
                 removed = false;
                 foreach (var item in data.TransUnits)
                 {
                     var target = HtmlAssistant.HtmlDecode(GetTarget(item).Value);
-                    var id = idsEndingEnd[i];
-                    if (id == target)
+                    var endingId = idsEndingEnd[idIndex];
+                    if (endingId == target)
                     {
                         try
                         {
                             item.Remove();
                             removed = true;
                         }
-                        catch (Exception ex)
+                        catch (Exception exception)
                         {
-                            ThrowEx.ExcAsArg(ex, "Element can't be removed");
+                            ThrowEx.ExcAsArg(exception, "Element can't be removed");
                         // have no parent
                         }
 
@@ -111,7 +111,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
         }
 
         await CSharpParser.RemoveConsts(XmlLocalisationInterchangeFileFormatSunamo.PathXlfKeys, idsEndingEnd);
-        data.XmlDocument.Save(fn);
+        data.XmlDocument.Save(fileName);
     }
 
     // Removes duplicate trans-units from an XLF file, keeping only the first occurrence of each ID.

@@ -18,7 +18,7 @@ internal class SHSplit
     /// </summary>
     internal static Tuple<string, string> SplitFromReplaceManyFormat(string input)
     {
-        StringBuilder to = new StringBuilder();
+        StringBuilder toBuilder = new StringBuilder();
         StringBuilder from = new StringBuilder();
 
         if (input.Contains("->"))
@@ -31,7 +31,7 @@ internal class SHSplit
             {
                 var parts = SHSplit.Split(item, "->");
                 from.AppendLine(parts[0]);
-                to.AppendLine(parts[1]);
+                toBuilder.AppendLine(parts[1]);
             }
         }
         else
@@ -39,7 +39,7 @@ internal class SHSplit
             from.AppendLine(input);
         }
 
-        return new Tuple<string, string>(from.ToString(), to.ToString());
+        return new Tuple<string, string>(from.ToString(), toBuilder.ToString());
     }
 
     /// <summary>
