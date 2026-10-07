@@ -29,16 +29,16 @@ internal class CSharpParser
             await
                 FileAsync.ReadAllTextAsync(file)).ToList();
 
-        for (var i = lines.Count - 1; i >= 0; i--)
+        for (var lineIndex = lines.Count - 1; lineIndex >= 0; lineIndex--)
         {
-            var text = lines[i].Trim();
+            var text = lines[lineIndex].Trim();
             if (text.Contains(XmlLocalisationInterchangeFileFormatSunamo.Cs))
             {
                 var key = XmlLocalisationInterchangeFileFormatSunamo.GetConstsFromLine(text);
                 var keyIndex = remove.IndexOf(key);
                 if (keyIndex != -1)
                 {
-                    lines.RemoveAt(i);
+                    lines.RemoveAt(lineIndex);
                     remove.RemoveAt(keyIndex);
                 }
             }

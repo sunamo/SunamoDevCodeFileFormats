@@ -29,9 +29,9 @@ public static partial class XmlLocalisationInterchangeFileFormat
         var occ = SH.ReturnOccurencesOfString(content, XmlLocalisationInterchangeFileFormatSunamo.SessI18n + "\"");
         occ.Reverse();
         var stringBuilder = new StringBuilder(content);
-        foreach (var dx in occ)
+        foreach (var position in occ)
         {
-            var start = dx + 1 + XmlLocalisationInterchangeFileFormatSunamo.SessI18n.Length;
+            var start = position + 1 + XmlLocalisationInterchangeFileFormatSunamo.SessI18n.Length;
             var end = content.IndexOf('"', start);
             key = content.Substring(start, end - start);
             stringBuilder.Remove(start - 1, end - start + 2);
@@ -45,9 +45,9 @@ public static partial class XmlLocalisationInterchangeFileFormat
     public static List<string> GetSunamoStrings()
     {
         var list = sunamoStrings.ToList();
-        for (int i = 0; i < list.Count; i++)
+        for (int index = 0; index < list.Count; index++)
         {
-            list[i] = SHReplace.ReplaceOnce(list[i], SunamoNotTranslateAble.SessI18n + SunamoNotTranslateAble.XlfKeysDot, string.Empty).TrimEnd(')');
+            list[index] = SHReplace.ReplaceOnce(list[index], SunamoNotTranslateAble.SessI18n + SunamoNotTranslateAble.XlfKeysDot, string.Empty).TrimEnd(')');
         }
 
         return list;
@@ -58,10 +58,10 @@ public static partial class XmlLocalisationInterchangeFileFormat
     {
         var from = GetSunamoStrings();
         CA.Prepend("SunamoStrings.", from);
-        var to = sunamoStrings;
-        for (int i = 0; i < from.Count; i++)
+        var toItems = sunamoStrings;
+        for (int index = 0; index < from.Count; index++)
         {
-            count = count.Replace(from[i], to[i]);
+            count = count.Replace(from[index], toItems[index]);
         }
 
         return count;
@@ -118,9 +118,9 @@ public static partial class XmlLocalisationInterchangeFileFormat
         }
 
         var replacedKeys = new List<string>();
-        foreach (var kv in filesWithXlf)
+        foreach (var fileWithXlf in filesWithXlf)
         {
-            var content = kv.Value;
+            var content = fileWithXlf.Value;
             var stringBuilder = new StringBuilder(content);
             replacedKeys.Clear();
             foreach (var item in ids)
@@ -140,18 +140,18 @@ public static partial class XmlLocalisationInterchangeFileFormat
                     addToNotToTranslateStrings.Add(idTarget[item]);
                 }
 
-                for (int i = points.Count - 1; i >= 0; i--)
+                for (int index = points.Count - 1; index >= 0; index--)
                 {
-                    var dx = points[i];
-                    stringBuilder.Remove(dx, toReplace.Length);
-                    stringBuilder.Insert(dx, SH.WrapWithQm(idTarget[item]));
+                    var position = points[index];
+                    stringBuilder.Remove(position, toReplace.Length);
+                    stringBuilder.Insert(position, SH.WrapWithQm(idTarget[item]));
                 }
             }
 
             replacedKeys = replacedKeys.Distinct().ToList();
             if (replacedKeys.Count > 0)
             {
-                await FileAsync.WriteAllTextAsync(kv.Key, stringBuilder.ToString());
+                await FileAsync.WriteAllTextAsync(fileWithXlf.Key, stringBuilder.ToString());
             }
         }
 
@@ -162,12 +162,12 @@ public static partial class XmlLocalisationInterchangeFileFormat
     // Determines whether a key should be included in XlfKeys based on naming rules.
     public static bool IsToBeInXlfKeys(string key)
     {
-        var b1 = !SystemWindowsControls.StartingWithShortcutOfControl(key);
-        var b2 = !key.StartsWith("Resources\\");
-        var b3 = !CA.HasPostfix(key, ".PlaceholderText", ".Content");
-        var b4 = !key.Contains(".");
-        var b5 = !key.Contains("\"");
-        return b1 && b2 && b3 && b4 && b5;
+        var isNotShortcut = !SystemWindowsControls.StartingWithShortcutOfControl(key);
+        var isNotResourcesPath = !key.StartsWith("Resources\\");
+        var isNotPostfixed = !CA.HasPostfix(key, ".PlaceholderText", ".Content");
+        var isNotDotted = !key.Contains(".");
+        var isNotQuoted = !key.Contains("\"");
+        return isNotShortcut && isNotResourcesPath && isNotPostfixed && isNotDotted && isNotQuoted;
     }
 
     // was collection with previously existed properties in SunamoStrings class like Translate.FromKey(XlfKeys.EditUserAccount)

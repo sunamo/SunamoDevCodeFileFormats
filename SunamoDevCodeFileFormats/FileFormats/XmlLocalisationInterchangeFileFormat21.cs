@@ -6,7 +6,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
 {
     public static
         async Task<OutRefDC<string, List<string>>>
-    ReturnEndingOn(string fn, List<string> list)
+    ReturnEndingOn(string fileName, List<string> list)
     {
         /*
 
@@ -26,10 +26,10 @@ Into A1 insert:
         list = CAChangeContent.ChangeContent0(null!, list, temp => SHParts.RemoveAfterFirst(temp, ' '));
         var idsEndingOn = new List<string>();
         var result = new Dictionary<string, StringBuilder>();
-        var tb = new TextOutputGenerator();
+        var textOutputGenerator = new TextOutputGenerator();
         var data =
             await
-        GetTransUnits(fn);
+        GetTransUnits(fileName);
         foreach (var item in list)
         {
             result.Add(item, new StringBuilder());
@@ -37,21 +37,21 @@ Into A1 insert:
 
         foreach (var item in data.TransUnits)
         {
-            string? id = null;
-            var lastLetter = GetLastLetter(item, out id).ToString();
+            string? transUnitId = null;
+            var lastLetter = GetLastLetter(item, out transUnitId).ToString();
             if (list.Any(letter => letter == lastLetter))
             {
                 result[lastLetter!].AppendLine(GetTarget(item).Value);
-                idsEndingOn.Add(id!);
+                idsEndingOn.Add(transUnitId!);
             }
         }
 
         foreach (var item in result)
         {
-            tb.Paragraph(item.Value, item.Key);
+            textOutputGenerator.Paragraph(item.Value, item.Key);
         }
 
-        return new OutRefDC<string, List<string>>(tb.StringBuilder.ToString(), idsEndingOn);
+        return new OutRefDC<string, List<string>>(textOutputGenerator.StringBuilder.ToString(), idsEndingOn);
     }
 
     // Before mu
@@ -105,7 +105,7 @@ Into A1 insert:
 
         var temp = SHSplit.SplitFromReplaceManyFormatList(pairsReplace);
         var from = temp.Item1;
-        var to = temp.Item2;
+        var toItems = temp.Item2;
         foreach (var item in __xlfSolutions)
         {
             var files = GetFilesCs(logger, item);
@@ -115,9 +115,9 @@ Into A1 insert:
                     await
                 FileAsync.ReadAllTextAsync(item2);
                 content = content.Replace("\"-\"+\"-\"", "\"-\"");
-                for (int i = 0; i < from.Count; i++)
+                for (int index = 0; index < from.Count; index++)
                 {
-                    content = content.Replace(from[i], to[i]);
+                    content = content.Replace(from[index], toItems[index]);
                 }
 
                 await FileAsync.WriteAllTextAsync(item2, content);
@@ -145,23 +145,23 @@ Into A1 insert:
     // Was in MainWindow but probably was replaced with GetAllLastLetterFromEnd
     public static
         async Task<List<string>>
-    GetAllLastLetterFromEnd(string fn)
+    GetAllLastLetterFromEnd(string fileName)
     {
         var ids = new List<string>();
         var allLastLetters = new List<char>();
         var data =
             await
-        GetTransUnits(fn);
+        GetTransUnits(fileName);
         foreach (XElement item in data.TransUnits)
         {
-            string? id = null;
-            var ch = GetLastLetter(item, out id);
-            if (ch.HasValue)
+            string? transUnitId = null;
+            var lastLetter = GetLastLetter(item, out transUnitId);
+            if (lastLetter.HasValue)
             {
-                allLastLetters.Add(ch.Value);
+                allLastLetters.Add(lastLetter.Value);
             }
 
-            ids.Add(id!);
+            ids.Add(transUnitId!);
         }
 
         allLastLetters = allLastLetters.Distinct().ToList();

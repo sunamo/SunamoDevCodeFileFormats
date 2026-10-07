@@ -19,8 +19,8 @@ internal partial class XHelper
             FileAsync.ReadAllTextAsync(pathOrContent);
         }
 
-        XmlNamespacesHolder h = new XmlNamespacesHolder();
-        XDocument doc = h.ParseAndRemoveNamespacesXDocument(xmlFormat);
+        XmlNamespacesHolder namespacesHolder = new XmlNamespacesHolder();
+        XDocument doc = namespacesHolder.ParseAndRemoveNamespacesXDocument(xmlFormat);
         var formatted = doc.ToString();
         formatted = formatted.Replace(" xmlns=\"\"", string.Empty);
         //HReplace.ReplaceAll2(formatted, string.Empty, " xmlns=\"\"");

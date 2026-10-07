@@ -13,10 +13,10 @@ public static partial class XmlLocalisationInterchangeFileFormat
         List<string> consts = new List<string>();
         AllLists.InitHtmlEntitiesFullNames();
         var values = AllLists.htmlEntitiesFullNames.Values.ToList();
-        int i;
-        for (i = 0; i < values.Count; i++)
+        int index;
+        for (index = 0; index < values.Count; index++)
         {
-            values[i] = "_" + values[i];
+            values[index] = "_" + values[index];
         }
 
         var newConsts = new StringBuilder();
@@ -80,21 +80,21 @@ TranslateEngine");
 
     public static char? GetLastLetter(XElement item)
     {
-        string? id = null;
-        return GetLastLetter(item, out id);
+        string? transUnitId = null;
+        return GetLastLetter(item, out transUnitId);
     }
 
     static Tuple<string, string> GetTransUnit(XElement item)
     {
-        string id = Id(item);
+        string transUnitId = Id(item);
         XElement target = GetTarget(item);
-        return new Tuple<string, string>(id, target.Value);
+        return new Tuple<string, string>(transUnitId, target.Value);
     }
 
-    public static char? GetLastLetter(XElement item, out string? id)
+    public static char? GetLastLetter(XElement item, out string? transUnitId)
     {
         var transUnit = GetTransUnit(item);
-        id = transUnit.Item1;
+        transUnitId = transUnit.Item1;
         if (transUnit.Item2.Length > 0)
         {
             return transUnit.Item2.Last();
@@ -139,11 +139,11 @@ TranslateEngine");
         {
             var start = index + XmlLocalisationInterchangeFileFormatSunamo.XlfKeysDot.Length;
             var end = -1;
-            for (int i = start; i < content.Length; i++)
+            for (int characterIndex = start; characterIndex < content.Length; characterIndex++)
             {
-                if (!char.IsLetterOrDigit(content[i]))
+                if (!char.IsLetterOrDigit(content[characterIndex]))
                 {
-                    end = i;
+                    end = characterIndex;
                     break;
                 }
             }

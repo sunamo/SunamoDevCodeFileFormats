@@ -9,30 +9,30 @@ public static partial class XmlLocalisationInterchangeFileFormat
     // Remove completely whole Trans-unit
     public static
         async Task<string>
-    RemoveFromXlfWhichHaveEmptyTargetOrSource(string fn, XlfParts xp, RemoveFromXlfWhichHaveEmptyTargetOrSourceArgs? a = null)
+    RemoveFromXlfWhichHaveEmptyTargetOrSource(string fileName, XlfParts xlfParts, RemoveFromXlfWhichHaveEmptyTargetOrSourceArgs? args = null)
     {
-        if (a == null)
+        if (args == null)
         {
-            a = RemoveFromXlfWhichHaveEmptyTargetOrSourceArgs.Default;
+            args = RemoveFromXlfWhichHaveEmptyTargetOrSourceArgs.Default;
         }
 
         var data =
             await
-        GetTransUnits(fn);
+        GetTransUnits(fileName);
         //string source =
-        for (int i = data.TransUnits.Count - 1; i >= 0; i--)
+        for (int index = data.TransUnits.Count - 1; index >= 0; index--)
         {
-            var item = data.TransUnits[i];
-            var el = SourceTarget(item);
-            if (xp == XlfParts.Source)
+            var item = data.TransUnits[index];
+            var sourceTargetElements = SourceTarget(item);
+            if (xlfParts == XlfParts.Source)
             {
-                if (el.Item1 != null)
+                if (sourceTargetElements.Item1 != null)
                 {
-                    if (el.Item1.Value.Trim() == string.Empty)
+                    if (sourceTargetElements.Item1.Value.Trim() == string.Empty)
                     {
-                        if (a.RemoveWholeTransUnit)
+                        if (args.RemoveWholeTransUnit)
                         {
-                            el.Item1.Remove();
+                            sourceTargetElements.Item1.Remove();
                         }
                         else
                         {
@@ -41,15 +41,15 @@ public static partial class XmlLocalisationInterchangeFileFormat
                     }
                 }
             }
-            else if (xp == XlfParts.Target)
+            else if (xlfParts == XlfParts.Target)
             {
-                if (el.Item2 != null)
+                if (sourceTargetElements.Item2 != null)
                 {
-                    if (el.Item2.Value.Trim() == string.Empty)
+                    if (sourceTargetElements.Item2.Value.Trim() == string.Empty)
                     {
-                        if (a.RemoveWholeTransUnit)
+                        if (args.RemoveWholeTransUnit)
                         {
-                            el.Item2.Remove();
+                            sourceTargetElements.Item2.Remove();
                         }
                         else
                         {
@@ -60,9 +60,9 @@ public static partial class XmlLocalisationInterchangeFileFormat
             }
         }
 
-        if (a.Save)
+        if (args.Save)
         {
-            data.XmlDocument.Save(fn);
+            data.XmlDocument.Save(fileName);
         }
 
         return data.XmlDocument.ToString();
@@ -72,11 +72,11 @@ public static partial class XmlLocalisationInterchangeFileFormat
     // A1 is possible to obtain with XmlLocalisationInterchangeFileFormat.GetLangFromFilename
     public static
         async Task
-    TrimStringResources(string fn)
+    TrimStringResources(string fileName)
     {
         var data =
             await
-        GetTransUnits(fn);
+        GetTransUnits(fileName);
         foreach (XElement item in data.TransUnits)
         {
             var temp = SourceTarget(item);
@@ -86,29 +86,29 @@ public static partial class XmlLocalisationInterchangeFileFormat
             TrimValueIfNot(target);
         }
 
-        data.XmlDocument.Save(fn);
+        data.XmlDocument.Save(fileName);
     }
 
     // A1 is possible to obtain with XlfResourcesH.PathToXlfSunamo
     public static
         async Task<XlfData>
-    GetTransUnits(string fn)
+    GetTransUnits(string fileName)
     {
-        LangsDC toL = XmlLocalisationInterchangeFileFormatSunamo.GetLangFromFilename(fn);
+        LangsDC toL = XmlLocalisationInterchangeFileFormatSunamo.GetLangFromFilename(fileName);
         string enS =
             await
-        FileAsync.ReadAllTextAsync(fn);
+        FileAsync.ReadAllTextAsync(fileName);
         var data = new XlfData();
-        data.Path = fn;
-        var h = new XmlNamespacesHolder();
-        h.ParseAndRemoveNamespacesXmlDocument(enS);
+        data.Path = fileName;
+        var namespacesHolder = new XmlNamespacesHolder();
+        namespacesHolder.ParseAndRemoveNamespacesXmlDocument(enS);
         data.XmlDocument =
             await
-        XHelper.CreateXDocument(fn);
-        XHelper.AddXmlNamespaces(h.NamespaceManager);
+        XHelper.CreateXDocument(fileName);
+        XHelper.AddXmlNamespaces(namespacesHolder.NamespaceManager);
         XElement xliff = XHelper.GetElementOfName(data.XmlDocument, "xliff")!;
         var allElements = XHelper.GetElementsOfNameWithAttrContains(xliff!, "file", "target-language", toL.ToString());
-        var resources = allElements.Where(d2 => XHelper.Attr(d2, "original")!.Contains("/" + "RESOURCES" + "/"));
+        var resources = allElements.Where(element => XHelper.Attr(element, "original")!.Contains("/" + "RESOURCES" + "/"));
         XElement file = resources.First();
         XElement body = XHelper.GetElementOfName(file, "body")!;
         data.Group = XHelper.GetElementOfName(body!, "group")!;
@@ -118,11 +118,11 @@ public static partial class XmlLocalisationInterchangeFileFormat
 
     public static
         async Task
-    Append(string target, string pascal, string fn)
+    Append(string target, string pascal, string fileName)
     {
         var data =
             await
-        GetTransUnits(fn);
+        GetTransUnits(fileName);
         var exists = XHelper.GetElementOfNameWithAttr(data.Group, TransUnit.TransUnitTagName, "id", pascal);
         if (exists != null)
         {
@@ -130,27 +130,27 @@ public static partial class XmlLocalisationInterchangeFileFormat
         }
 
         Append( /*source,*/target, pascal, data);
-        data.XmlDocument.Save(fn);
-        await XHelper.FormatXml(fn);
+        data.XmlDocument.Save(fileName);
+        await XHelper.FormatXml(fileName);
     }
 
     // Appends a new trans-unit element with the specified target text and ID to the XLF data group.
     public static void Append( /*string source, */string target, string pascal, XlfData data)
     {
-        var tu = new TransUnit();
-        tu.Id = pascal;
+        var transUnit = new TransUnit();
+        transUnit.Id = pascal;
         // Directly set to null due to not inserting into .xlf
-        tu.Source = null!;
+        transUnit.Source = null!;
         //tu.translate = true;
         // Inlined from SHTrim.TrimStartAndEnd - ořezává znaky ze začátku a konce podle podmínky
         var trimmedTarget = target;
         // Ořez ze začátku
-        for (int i = 0; i < trimmedTarget.Length; i++)
+        for (int index = 0; index < trimmedTarget.Length; index++)
         {
-            if (!char.IsLetterOrDigit(trimmedTarget[i]))
+            if (!char.IsLetterOrDigit(trimmedTarget[index]))
             {
                 trimmedTarget = trimmedTarget.Substring(1);
-                i--;
+                index--;
             }
             else
             {
@@ -159,9 +159,9 @@ public static partial class XmlLocalisationInterchangeFileFormat
         }
 
         // Ořez z konce
-        for (int i = trimmedTarget.Length - 1; i >= 0; i--)
+        for (int characterIndex = trimmedTarget.Length - 1; characterIndex >= 0; characterIndex--)
         {
-            if (!char.IsLetterOrDigit(trimmedTarget[i]))
+            if (!char.IsLetterOrDigit(trimmedTarget[characterIndex]))
             {
                 trimmedTarget = trimmedTarget.Remove(trimmedTarget.Length - 1, 1);
             }
@@ -171,16 +171,16 @@ public static partial class XmlLocalisationInterchangeFileFormat
             }
         }
 
-        tu.Target = trimmedTarget;
-        var xml = tu.ToString()!;
-        XElement xe = XElement.Parse(xml!);
-        xe = XHelper.MakeAllElementsWithDefaultNs(xe);
-        data.Group.Add(xe);
+        transUnit.Target = trimmedTarget;
+        var xml = transUnit.ToString()!;
+        XElement element = XElement.Parse(xml!);
+        element = XHelper.MakeAllElementsWithDefaultNs(element);
+        data.Group.Add(element);
     }
 
     // Removes trans-units from both XLF file and XLF keys by matching IDs.
-    public static async Task RemoveFromXlfAndXlfKeys(string fn, List<string> idsEndingEnd)
+    public static async Task RemoveFromXlfAndXlfKeys(string fileName, List<string> idsEndingEnd)
     {
-        await RemoveFromXlfAndXlfKeys(fn, idsEndingEnd, XlfParts.Id);
+        await RemoveFromXlfAndXlfKeys(fileName, idsEndingEnd, XlfParts.Id);
     }
 }

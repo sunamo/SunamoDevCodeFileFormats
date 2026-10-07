@@ -15,9 +15,9 @@ public static partial class XmlLocalisationInterchangeFileFormat
         count = XmlLocalisationInterchangeFileFormat.ReplaceRlDataToSessionI18n(count);
         var list = SHGetLines.GetLines(count);
         bool cont = false;
-        for (int i = list.Count - 1; i >= 0; i--)
+        for (int index = list.Count - 1; index >= 0; index--)
         {
-            var line = list[i];
+            var line = list[index];
             cont = false;
             foreach (var item in lineCont)
             {
@@ -30,7 +30,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
 
             if (cont)
             {
-                list[i] = RemoveAllSessI18n(list[i]);
+                list[index] = RemoveAllSessI18n(list[index]);
             }
         }
 
@@ -50,10 +50,10 @@ public static partial class XmlLocalisationInterchangeFileFormat
         }
 
         var list = sessI18n.Length;
-        for (int i = occ.Count - 1; i >= 0; i--)
+        for (int index = occ.Count - 1; index >= 0; index--)
         {
-            stringBuilder = stringBuilder.Remove(ending[i], 1);
-            stringBuilder = stringBuilder.Remove(occ[i], list);
+            stringBuilder = stringBuilder.Remove(ending[index], 1);
+            stringBuilder = stringBuilder.Remove(occ[index], list);
         }
 
         return stringBuilder.ToString();
@@ -91,18 +91,18 @@ public static partial class XmlLocalisationInterchangeFileFormat
         }
 
         string SunamoStringsDot = XmlLocalisationInterchangeFileFormatSunamo.SunamoStringsDot;
-        int dx = -1;
+        int foundIndex = -1;
         foreach (var item in sunamoStrings)
         {
-            dx = content.IndexOf((string)item);
-            if (dx != -1)
+            foundIndex = content.IndexOf((string)item);
+            if (foundIndex != -1)
             {
-                var line = SH.GetLineFromCharIndex(content, SHGetLines.GetLines(content), dx);
+                var line = SH.GetLineFromCharIndex(content, SHGetLines.GetLines(content), foundIndex);
                 if (line.Contains(SunamoStringsDot))
                 {
-                    content = content.Insert(dx + Enumerable.Count(item), newEndingChar);
-                    content = content.Remove(dx, SunamoStringsDot.Length);
-                    content = content.Insert(dx, to + XmlLocalisationInterchangeFileFormatSunamo.XlfKeysDot);
+                    content = content.Insert(foundIndex + Enumerable.Count(item), newEndingChar);
+                    content = content.Remove(foundIndex, SunamoStringsDot.Length);
+                    content = content.Insert(foundIndex, to + XmlLocalisationInterchangeFileFormatSunamo.XlfKeysDot);
                 }
             }
         }
@@ -113,18 +113,18 @@ public static partial class XmlLocalisationInterchangeFileFormat
         var ending = new List<int>();
         foreach (var item in occ)
         {
-            var io = content.IndexOf(endingChar, item);
-            ending.Add(io);
+            var endingIndex = content.IndexOf(endingChar, item);
+            ending.Add(endingIndex);
         }
 
         var stringBuilder = new StringBuilder(content);
         occ.Reverse();
         ending.Reverse();
-        for (int i = 0; i < occ.Count; i++)
+        for (int index = 0; index < occ.Count; index++)
         {
-            stringBuilder.Remove(occ[i], list);
-            stringBuilder.Insert(occ[i], to);
-            var ending2 = ending[i];
+            stringBuilder.Remove(occ[index], list);
+            stringBuilder.Insert(occ[index], to);
+            var ending2 = ending[index];
             stringBuilder.Remove(ending2, 1);
             stringBuilder.Insert(ending2, newEndingChar);
         }

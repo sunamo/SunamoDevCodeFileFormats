@@ -17,9 +17,9 @@ internal partial class CA
     /// </summary>
     internal static List<string> WrapWith(List<string> list, string prefixText, string suffixText)
     {
-        for (int i = 0; i < list.Count; i++)
+        for (int index = 0; index < list.Count; index++)
         {
-            list[i] = prefixText + list[i] + suffixText;
+            list[index] = prefixText + list[index] + suffixText;
         }
 
         return list;
@@ -46,11 +46,11 @@ internal partial class CA
     /// </summary>
     internal static List<string> Prepend(string prefix, List<string> list)
     {
-        for (int i = 0; i < list.Count; i++)
+        for (int index = 0; index < list.Count; index++)
         {
-            if (!list[i].StartsWith(prefix))
+            if (!list[index].StartsWith(prefix))
             {
-                list[i] = prefix + list[i];
+                list[index] = prefix + list[index];
             }
         }
 
