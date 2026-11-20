@@ -10,5 +10,4 @@ internal class SunamoNotTranslateAble
     internal const string RLDataEn = "RLData.en[";
     internal const string RLDataCs = "RLData.cs[";
     internal const string RLDataEn2 = "RLDataEn[";
-    internal const string XlfKeysDot = "XlfKeys.";
 }
