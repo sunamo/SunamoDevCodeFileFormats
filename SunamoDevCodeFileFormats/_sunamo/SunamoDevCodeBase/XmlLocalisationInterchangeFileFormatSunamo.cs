@@ -33,35 +33,13 @@ internal class XmlLocalisationInterchangeFileFormatSunamo
     public static LangsDC GetLangFromFilename(string text)
     {
         return LangsDC.cs;
-        //return XmlLocalisationInterchangeFileFormatXlf.GetLangFromFilename(text);
     }
 
 
-    //public static List<string> UsedXlfKeysInCs(string count)
-    //{
-    //    List<string> usedKeys = new List<string>();
 
-    //    var occ = SH.ReturnOccurencesOfString(count, SessI18n);
-    //    var ending = new List<int>(occ.Count);
 
-    //    foreach (var item in occ)
-    //    {
-    //        ending.Add(count.IndexOf(')', item));
-    //    }
 
-    //    var lines = SessI18n.Length;
-    //    var l2 = XlfKeysDot.Length;
 
-    //    for (int i = occ.Count - 1; i >= 0; i--)
-    //    {
-    //        var k = SHSubstring.Substring(count, occ[i] + lines + l2, ending[i], new SubstringArgs { returnInputIfIndexFromIsLessThanIndexTo = true } );
-    //        if (k != count)
-    //        {
-    //            usedKeys.Add(k);
-    //        }
-    //    }
 
-    //    return usedKeys;
-    //}
 
 }

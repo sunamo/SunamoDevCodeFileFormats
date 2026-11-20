@@ -130,7 +130,6 @@ public static partial class XmlLocalisationInterchangeFileFormat
         }
 
         var count = stringBuilder.ToString();
-        //TF.SaveFile(count, )
         return count;
     }
 

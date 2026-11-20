@@ -24,8 +24,6 @@ public static partial class XmlLocalisationInterchangeFileFormat
                 {
                     result.Add(idTransUnit!);
                 // dont remove, just save ID, coz many strings have diac and is not czech hats tuồng (hats bôi)
-                //item.Remove();
-                //; break;
                 }
             }
         }
@@ -40,15 +38,10 @@ public static partial class XmlLocalisationInterchangeFileFormat
                 {
                     result.Add(idTransUnit!);
                 // dont remove, just save ID, coz many strings have diac and is not czech hats tuồng (hats bôi)
-                //item.Remove();
                 }
             }
         }
 
-        //if (saveToClipboard)
-        //{
-        //    ClipboardHelper.SetLines(r);
-        //}
         return result;
     }
 
@@ -131,27 +124,6 @@ public static partial class XmlLocalisationInterchangeFileFormat
          */
         if (false)
         {
-        //XlfData data;
-        //var ids = GetIds(xlfPath, out data);
-        //data.XmlDocument.XPathSelectElement("/xliff/file[original=@'WPF.TESTS/RESOURCES/EN-US.RESX']");
-        //List<string> duplicated;
-        //CAG.RemoveDuplicitiesList(ids, out duplicated);
-        //var b2 = data.XmlDocument.Descendants().Count();
-        //foreach (var item in duplicated)
-        //{
-        //    var elements = data.group.Elements().ToList();
-        //    for (int i = 0; i < elements.Count(); i++)
-        //    {
-        //        var id = XHelper.Attr(elements[i], "id");
-        //        if (id == item)
-        //        {
-        //            elements.Remove(elements[i]);
-        //            break;
-        //        }
-        //    }
-        //}
-        //var b3 = data.XmlDocument.Descendants().Count();
-        //data.XmlDocument.Save(xlfPath);
         }
 
         var allIds =

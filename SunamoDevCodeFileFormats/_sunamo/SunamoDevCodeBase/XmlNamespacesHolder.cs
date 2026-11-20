@@ -5,7 +5,6 @@ namespace SunamoDevCode._sunamo.SunamoDevCodeBase;
 /// </summary>
 internal class XmlNamespacesHolder
 {
-    //internal NameTable nt = new NameTable();
     internal XmlNamespaceManager NamespaceManager = null!;
 
     /// <summary>
@@ -30,12 +29,6 @@ internal class XmlNamespacesHolder
     {
         XmlDocument xmlDocument = new XmlDocument();
 
-        /*
-        * In default state have already three keys:
-        * "" = ""
-        xmlns=http://www.w3.org/2000/xmlns/
-        xml=http://www.w3.org/XML/1998/namespace
-        */
         NamespaceManager = new XmlNamespaceManager(nameTable);
 
         xmlDocument.LoadXml(content);

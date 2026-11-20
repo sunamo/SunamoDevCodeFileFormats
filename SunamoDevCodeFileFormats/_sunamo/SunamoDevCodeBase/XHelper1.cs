@@ -23,17 +23,14 @@ internal partial class XHelper
         XDocument doc = namespacesHolder.ParseAndRemoveNamespacesXDocument(xmlFormat);
         var formatted = doc.ToString();
         formatted = formatted.Replace(" xmlns=\"\"", string.Empty);
-        //HReplace.ReplaceAll2(formatted, string.Empty, " xmlns=\"\"");
         if (File.Exists(pathOrContent))
         {
             await
             FileAsync.WriteAllTextAsync(pathOrContent, formatted);
-            //ThisApp.Success(Translate.FromKey(XlfKeys.ChangesSavedToFile));
             return null!;
         }
         else
         {
-            //ThisApp.Success(Translate.FromKey(XlfKeys.ChangesSavedToClipboard));
             return formatted;
         }
     }

@@ -144,15 +144,9 @@ internal partial class XHelper
         // shift ALL elements in the settings document into the target namespace
         foreach (XElement element in settings.DescendantsAndSelf())
         {
-            //e.Name =  e.Name.LocalName;
             element.Name = XName.Get(element.Name.LocalName, ns2);
         }
 
-        //foreach (var e in settings.Attributes())
-        //{
-        //    //e.Name = XName.Get(e.Name.LocalName, ns2);
-        //    toInsert.Add(e);
-        //}
         //t
         var newElement = new XElement(XName.Get(settings.Name.LocalName, ns2), settings.Attributes(), settings.Descendants());
         return newElement;

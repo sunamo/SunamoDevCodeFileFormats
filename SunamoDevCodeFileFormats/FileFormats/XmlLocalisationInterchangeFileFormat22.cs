@@ -19,7 +19,6 @@ public static partial class XmlLocalisationInterchangeFileFormat
         var data =
             await
         GetTransUnits(fileName);
-        //string source =
         for (int index = data.TransUnits.Count - 1; index >= 0; index--)
         {
             var item = data.TransUnits[index];
@@ -141,7 +140,6 @@ public static partial class XmlLocalisationInterchangeFileFormat
         transUnit.Id = pascal;
         // Directly set to null due to not inserting into .xlf
         transUnit.Source = null!;
-        //tu.translate = true;
         // Inlined from SHTrim.TrimStartAndEnd - ořezává znaky ze začátku a konce podle podmínky
         var trimmedTarget = target;
         // Ořez ze začátku

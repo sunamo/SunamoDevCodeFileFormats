@@ -37,7 +37,6 @@ public static partial class XmlLocalisationInterchangeFileFormat
                 newConsts.AppendLine(string.Format(CSharpTemplates.constant, cleanedItem));
             }
         }
-    //ClipboardHelper.SetText(newConsts.ToString());
 #endregion
     }
 

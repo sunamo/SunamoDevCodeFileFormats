@@ -21,12 +21,9 @@ public class XmlLocalisationInterchangeFileFormatTests
         Assert.Equal(expected, actual);
 
         input = "MSStoredProceduresI.ci.a(XlfKeys.dotEn)";
-        //        input = @"abc
 
-        //MSStoredProceduresI.ci.a(XlfKeys.dotEn);
 
         //def
-        //klm";
         expected = "MSStoredProceduresI.ci.a(XlfKeys.dotEn)";
 
         actual = XmlLocalisationInterchangeFileFormat.ReplaceRlDataToSessionI18n(input, RLDataEn, SessI18nShort);

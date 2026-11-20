@@ -176,10 +176,6 @@ public static partial class XmlLocalisationInterchangeFileFormat
     public static List<string> removeSessI18nIfLineContains = new List<string>(["MSStoredProceduresI"]);
     // Before is possible use ReplaceRlDataToSessionI18n
     // Was earlier in sunamo, now in SunamoDevCode
-     //public static string RemoveSessI18nIfLineContains(string count, params string[] lineCont)
-    //{
-    //    return RemoveSessI18nIfLineContainsWorker(count, removeSessI18nIfLineContains.ToArray());
-    //}
     // Removes SessI18n references from lines that contain any of the predefined identifiers.
     public static string RemoveSessI18nIfLineContains(string count)
     {

@@ -121,9 +121,7 @@ Into A1 insert:
                 }
 
                 await FileAsync.WriteAllTextAsync(item2, content);
-            //break;
             }
-        //break;
         }
     }
 
@@ -132,15 +130,8 @@ Into A1 insert:
     //#else
     //  XlfData
     //#endif
-    //        GetTransUnits(LangsDC en)
-    //    {
-    //        return null;
-    //        //        return
     //        //#if ASYNC
     //        //    await
-    //        //#endif
-    //        //    GetTransUnits(XlfResourcesH.PathToXlfSunamo(en));
-    //    }
     // Is used nowhere
     // Was in MainWindow but probably was replaced with GetAllLastLetterFromEnd
     public static
