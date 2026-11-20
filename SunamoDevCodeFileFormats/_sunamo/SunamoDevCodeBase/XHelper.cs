@@ -36,12 +36,12 @@ internal partial class XHelper
     /// <summary>
     /// Returns elements of the name recursively.
     /// </summary>
-    internal static List<XElement> GetElementsOfNameRecursive(XElement node, string nazev)
+    internal static List<XElement> GetElementsOfNameRecursive(XElement node, string name)
     {
         var elements = new List<XElement>();
-        if (nazev.Contains(":"))
+        if (name.Contains(":"))
         {
-            var(prefix, localName) = SH.GetPartsByLocationNoOut(nazev, ':');
+            var(prefix, localName) = SH.GetPartsByLocationNoOut(name, ':');
             prefix = XHelper.ns[prefix];
             foreach (XElement item in node.DescendantsAndSelf())
             {
@@ -55,7 +55,7 @@ internal partial class XHelper
         {
             foreach (XElement item in node.DescendantsAndSelf())
             {
-                if (item.Name.LocalName == nazev)
+                if (item.Name.LocalName == name)
                 {
                     elements.Add(item);
                 }
@@ -72,7 +72,7 @@ internal partial class XHelper
     {
         foreach (string item in nsmgr)
         {
-            // Jaky je typ item, at nemusim pouzivat slovnik
+            // What is the type of item, so I do not need to use a dictionary
             var value = nsmgr.LookupNamespace(item);
             if (!ns.ContainsKey(item))
             {
@@ -84,11 +84,11 @@ internal partial class XHelper
     /// <summary>
     /// Returns the first child element of the name with the attribute value.
     /// </summary>
-    internal static XElement? GetElementOfNameWithAttr(XElement node, string nazev, string attr, string value)
+    internal static XElement? GetElementOfNameWithAttr(XElement node, string name, string attr, string value)
     {
-        if (nazev.Contains(":"))
+        if (name.Contains(":"))
         {
-            var(prefix, localName) = SH.GetPartsByLocationNoOut(nazev, ':');
+            var(prefix, localName) = SH.GetPartsByLocationNoOut(name, ':');
             prefix = XHelper.ns[prefix];
             foreach (XElement item in node.Elements())
             {
@@ -105,7 +105,7 @@ internal partial class XHelper
         {
             foreach (XElement item in node.DescendantsAndSelf())
             {
-                if (item.Name.LocalName == nazev)
+                if (item.Name.LocalName == name)
                 {
                     if (Attr(item, attr) == value)
                     {
@@ -153,17 +153,17 @@ internal partial class XHelper
     /// <summary>
     /// Checks whether the name matches the tag.
     /// </summary>
-    internal static bool IsRightTag(XElement xName, string nazev)
+    internal static bool IsRightTag(XElement xName, string name)
     {
-        return IsRightTag(xName.Name, nazev);
+        return IsRightTag(xName.Name, name);
     }
 
     /// <summary>
     /// Checks whether the name matches the tag.
     /// </summary>
-    internal static bool IsRightTag(XName xName, string nazev)
+    internal static bool IsRightTag(XName xName, string name)
     {
-        var(prefix, tagName) = SH.GetPartsByLocationNoOut(nazev, ':');
+        var(prefix, tagName) = SH.GetPartsByLocationNoOut(name, ':');
         prefix = XHelper.ns[prefix];
         if (xName.LocalName == tagName && xName.NamespaceName == prefix)
         {
@@ -176,14 +176,14 @@ internal partial class XHelper
     /// <summary>
     /// Returns child elements of the name.
     /// </summary>
-    internal static List<XElement> GetElementsOfName(XElement node, string nazev)
+    internal static List<XElement> GetElementsOfName(XElement node, string name)
     {
         var result = new List<XElement>();
-        if (nazev.Contains(":"))
+        if (name.Contains(":"))
         {
             foreach (XElement item in node.Elements())
             {
-                if (IsRightTag(item, nazev))
+                if (IsRightTag(item, name))
                 {
                     result.Add(item);
                 }
@@ -193,7 +193,7 @@ internal partial class XHelper
         {
             foreach (XElement item in node.Elements())
             {
-                if (item.Name.LocalName == nazev)
+                if (item.Name.LocalName == name)
                 {
                     result.Add(item);
                 }
@@ -227,11 +227,11 @@ internal partial class XHelper
     /// <summary>
     /// Returns the first child element of the name.
     /// </summary>
-    internal static XElement? GetElementOfName(XContainer node, string nazev)
+    internal static XElement? GetElementOfName(XContainer node, string name)
     {
-        if (nazev.Contains(":"))
+        if (name.Contains(":"))
         {
-            var(prefix, localName) = SH.GetPartsByLocationNoOut(nazev, ':');
+            var(prefix, localName) = SH.GetPartsByLocationNoOut(name, ':');
             prefix = XHelper.ns[prefix];
             foreach (XElement item in node.Elements())
             {
@@ -249,7 +249,7 @@ internal partial class XHelper
         {
             foreach (XElement item in node.Elements())
             {
-                if (item.Name.LocalName == nazev)
+                if (item.Name.LocalName == name)
                 {
                     return item;
                 }
