@@ -1,6 +1,5 @@
 namespace SunamoDevCode.FileFormats;
 
-// Variable names have been checked and replaced with self-descriptive names
 public static partial class XmlLocalisationInterchangeFileFormat
 {
     // Into A1 insert XlfResourcesH.PathToXlfSunamo

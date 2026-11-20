@@ -1,6 +1,5 @@
 namespace SunamoDevCode.FileFormats;
 
-// Variable names have been checked and replaced with self-descriptive names
 public static partial class XmlLocalisationInterchangeFileFormat
 {
     // Removes SessI18n calls from lines that contain any of the specified substrings.

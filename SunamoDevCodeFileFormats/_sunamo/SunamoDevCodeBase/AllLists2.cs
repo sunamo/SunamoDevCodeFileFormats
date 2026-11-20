@@ -1,6 +1,5 @@
 namespace SunamoDevCode._sunamo.SunamoDevCodeBase;
 
-// Variable names have been checked and replaced with self-descriptive names
 /// <summary>
 /// Holder of static lookup lists and dictionaries.
 /// </summary>
