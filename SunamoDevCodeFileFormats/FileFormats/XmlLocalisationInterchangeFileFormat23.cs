@@ -43,7 +43,6 @@ public static partial class XmlLocalisationInterchangeFileFormat
         return result;
     }
 
-    // Removes specified trans-units from the XLF file and corresponding constants from XlfKeys.
     public static
         async Task
     RemoveFromXlfAndXlfKeys(string fileName, List<string> idsEndingEnd, XlfParts xlfParts)

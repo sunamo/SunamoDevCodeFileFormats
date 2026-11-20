@@ -2,7 +2,6 @@ namespace SunamoDevCode.FileFormats;
 
 public static partial class XmlLocalisationInterchangeFileFormat
 {
-    // Replaces string-based SessI18n keys with XlfKeys dot notation in all given files.
     public static
         async Task
     ReplaceStringKeysWithXlfKeys(List<string> files)
@@ -21,7 +20,6 @@ public static partial class XmlLocalisationInterchangeFileFormat
         }
     }
 
-    // Worker method that performs the actual replacement of SessI18n keys with XlfKeys format in content.
     public static string ReplaceStringKeysWithXlfKeysWorker(ref string? key, string content)
     {
         var occ = SH.ReturnOccurencesOfString(content, XmlLocalisationInterchangeFileFormatSunamo.SessI18n + "\"");
@@ -39,7 +37,6 @@ public static partial class XmlLocalisationInterchangeFileFormat
         return stringBuilder.ToString();
     }
 
-    // Gets a list of SunamoStrings keys with the SessI18n and XlfKeys prefixes removed.
     public static List<string> GetSunamoStrings()
     {
         var list = sunamoStrings.ToList();
@@ -65,7 +62,6 @@ public static partial class XmlLocalisationInterchangeFileFormat
         return count;
     }
 
-    // ReplaceXlfKeysForString - Convert from XlfKeys to ""
     // Cooperating with NotToTranslateStrings
     public static
         async Task<OutRefDC<object, List<string>>>
@@ -157,7 +153,6 @@ public static partial class XmlLocalisationInterchangeFileFormat
     // Do not add again if it already ends with the postfix
     }
 
-    // Determines whether a key should be included in XlfKeys based on naming rules.
     public static bool IsToBeInXlfKeys(string key)
     {
         var isNotShortcut = !SystemWindowsControls.StartingWithShortcutOfControl(key);
@@ -168,7 +163,6 @@ public static partial class XmlLocalisationInterchangeFileFormat
         return isNotShortcut && isNotResourcesPath && isNotPostfixed && isNotDotted && isNotQuoted;
     }
 
-    // was collection with previously existed properties in SunamoStrings class like Translate.FromKey(XlfKeys.EditUserAccount)
     static readonly List<string> sunamoStrings = SHGetLines.GetLines(@"");
     // XmlLocalisationInterchangeFileFormatSunamo.removeSessI18nIfLineContains
     public static List<string> removeSessI18nIfLineContains = new List<string>(["MSStoredProceduresI"]);

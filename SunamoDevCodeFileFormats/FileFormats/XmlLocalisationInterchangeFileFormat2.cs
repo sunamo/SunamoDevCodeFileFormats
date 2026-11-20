@@ -153,7 +153,6 @@ TranslateEngine");
     }
 
     // Gets XLF keys from C# code with RLData.en prefix.
-    // To be able to be found with this method, keys must be wrapped with XlfKeys and Translate.FromKey or RLData.en.
     public static IList<string> GetKeysInCsWithRLDataEn(ref string key, string content)
     {
         List<string> foundKeys = new List<string>();
