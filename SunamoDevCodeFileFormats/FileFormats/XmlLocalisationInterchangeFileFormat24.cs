@@ -155,7 +155,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
         }
 
         return new OutRefDC<object, List<string>>(null!, addToNotToTranslateStrings.Distinct().ToList());
-    // Nepřidávat znovu pokud již končí na postfix
+    // Do not add again if it already ends with the postfix
     }
 
     // Determines whether a key should be included in XlfKeys based on naming rules.

@@ -139,9 +139,9 @@ public static partial class XmlLocalisationInterchangeFileFormat
         transUnit.Id = pascal;
         // Directly set to null due to not inserting into .xlf
         transUnit.Source = null!;
-        // Inlined from SHTrim.TrimStartAndEnd - ořezává znaky ze začátku a konce podle podmínky
+        // Inlined from SHTrim.TrimStartAndEnd - trims characters from the start and end by a condition
         var trimmedTarget = target;
-        // Ořez ze začátku
+        // Trim from the start
         for (int index = 0; index < trimmedTarget.Length; index++)
         {
             if (!char.IsLetterOrDigit(trimmedTarget[index]))
@@ -155,7 +155,7 @@ public static partial class XmlLocalisationInterchangeFileFormat
             }
         }
 
-        // Ořez z konce
+        // Trim from the end
         for (int characterIndex = trimmedTarget.Length - 1; characterIndex >= 0; characterIndex--)
         {
             if (!char.IsLetterOrDigit(trimmedTarget[characterIndex]))

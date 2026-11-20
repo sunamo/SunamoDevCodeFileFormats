@@ -1,6 +1,6 @@
 
 
-//    /// zkouška přidávání do xlf. z tohoto důvodu soubor musí existovat
+//    /// test of adding to xlf. For this reason the file must exist
 //    /// </summary>
 
 //    //[Fact]
@@ -22,7 +22,7 @@
 
 
 
-//        Cs se nikde nevyužívá, proto jej nemusím ani nahrazovat
+//        Cs is not used anywhere, so I do not even have to replace it
 
 
 //def
