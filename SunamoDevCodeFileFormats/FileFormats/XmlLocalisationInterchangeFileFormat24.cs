@@ -1,7 +1,6 @@
 namespace SunamoDevCode.FileFormats;
 
-// EN: Variable names have been checked and replaced with self-descriptive names
-// CZ: Názvy proměnných byly zkontrolovány a nahrazeny samopopisnými názvy
+// Variable names have been checked and replaced with self-descriptive names
 public static partial class XmlLocalisationInterchangeFileFormat
 {
     // Replaces string-based SessI18n keys with XlfKeys dot notation in all given files.

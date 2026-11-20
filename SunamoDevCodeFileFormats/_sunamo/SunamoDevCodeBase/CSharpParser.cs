@@ -12,8 +12,7 @@ internal class CSharpParser
     {
         remove.Insert(0, null!);
 
-        // EN: Inlined from CAIndexesWithNull.IndexesWithNull - gets indexes of null values in collection
-        // CZ: Inlined from CAIndexesWithNull.IndexesWithNull - získává indexy null hodnot v kolekci
+        // Inlined from CAIndexesWithNull.IndexesWithNull - gets indexes of null values in collection
         List<int> nullIndexes = [];
         int index = 0;
         foreach (var item in remove)
