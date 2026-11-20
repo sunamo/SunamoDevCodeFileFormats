@@ -13,6 +13,12 @@ public class OutRefDC<T, U>
         Item1 = firstValue;
         Item2 = secondValue;
     }
+    /// <summary>
+    /// Gets or sets the item 1.
+    /// </summary>
     public T Item1 { get; set; }
+    /// <summary>
+    /// Gets or sets the item 2.
+    /// </summary>
     public U Item2 { get; set; }
 }
